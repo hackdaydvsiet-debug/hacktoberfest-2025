@@ -1,23 +1,27 @@
-# Q9: Valid Parentheses
+class Solution:
+    def isValid(self, s: str) -> bool:
+        stack = []
+        bracket_map = {')': '(', '}': '{', ']': '['}
 
-Given a string `s` containing just the characters `(`, `)`, `{`, `}`, `[` and `]`, determine if the input string is valid.
+        for char in s:
+            if char in bracket_map.values():  # Opening brackets
+                stack.append(char)
+            elif char in bracket_map:  # Closing brackets
+                if not stack or stack[-1] != bracket_map[char]:
+                    return False
+                stack.pop()
+            else:
+                # Ignore invalid characters (if any)
+                return False
 
-An input string is valid if:
+        return not stack  # Valid if stack is empty
 
-1.  Open brackets must be closed by the same type of brackets.
-2.  Open brackets must be closed in the correct order.
 
-**Example 1:**
+# Example usage
+if __name__ == "__main__":
+    sol = Solution()
 
-**Input:** s = "()"
-**Output:** true
+    test_cases = ["()", "()[]{}", "(]", "([)]", "{[]}"]
 
-**Example 2:**
-
-**Input:** s = "()[]{}"
-**Output:** true
-
-**Example 3:**
-
-**Input:** s = "(]"
-**Output:** false
+    for s in test_cases:
+        print(f"{s} -> {sol.isValid(s)}")
