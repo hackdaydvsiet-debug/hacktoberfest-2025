@@ -168,9 +168,9 @@ function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col place-items-stretch">
+    <div className="min-h-screen flex flex-col place-items-stretch overflow-x-hidden">
       <Sidebar />
-      <div className="px-6 sm:px-12 lg:px-20">
+      <div className="px-3 sm:px-6 md:px-12 lg:px-20 max-w-full overflow-x-hidden">
         <div className="flex flex-col items-center justify-center mt-12 mb-8 animate-fade-in">
           <h1 className="text-2xl md:text-4xl font-bold text-center mb-6 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent animate-gradient-xy">
             StudyVibe - Level Up Your Learning Vibe
@@ -186,10 +186,10 @@ function Dashboard() {
           </div>
 
           {/* Mode Toggle */}
-          <div className="flex items-center gap-3 bg-white rounded-xl shadow-lg p-2.5">
+          <div className="flex items-center gap-2 sm:gap-3 bg-white rounded-xl shadow-lg p-2 sm:p-2.5 w-full max-w-md">
             <button
               onClick={() => setSchedulerMode("quick")}
-              className={`w-48 h-16 flex items-center justify-center rounded-lg font-semibold text-base transition-all duration-300 ${
+              className={`flex-1 min-w-0 h-14 sm:h-16 flex items-center justify-center rounded-lg font-semibold text-sm sm:text-base transition-all duration-300 ${
                 schedulerMode === "quick"
                   ? "bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-md"
                   : "text-gray-600 hover:text-gray-800 hover:bg-gray-50"
@@ -198,7 +198,7 @@ function Dashboard() {
             </button>
             <button
               onClick={() => setSchedulerMode("advanced")}
-              className={`w-48 h-16 flex flex-col items-center justify-center rounded-lg font-semibold text-sm transition-all duration-300 leading-tight ${
+              className={`flex-1 min-w-0 h-14 sm:h-16 flex flex-col items-center justify-center rounded-lg font-semibold text-xs sm:text-sm transition-all duration-300 leading-tight ${
                 schedulerMode === "advanced"
                   ? "bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-md"
                   : "text-gray-600 hover:text-gray-800 hover:bg-gray-50"
@@ -251,9 +251,9 @@ function Dashboard() {
           </div>
         </div>
       ) : (
-        <div className="mt-8 px-4 max-w-6xl mx-auto">
+        <div className="mt-4 sm:mt-6 md:mt-8 px-2 sm:px-4 max-w-6xl mx-auto w-full overflow-x-hidden">
           {/* Step-by-step guide banner */}
-          <div className="mb-6 p-4 bg-gradient-to-r from-purple-50 to-blue-50 border-2 border-purple-200 rounded-xl">
+          <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-gradient-to-r from-purple-50 to-blue-50 border-2 border-purple-200 rounded-xl">
             <h3 className="text-lg font-bold text-purple-900 mb-2">
               📝 How to Generate Your Study Plan:
             </h3>

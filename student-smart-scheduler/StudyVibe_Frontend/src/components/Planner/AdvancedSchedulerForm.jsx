@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import WeeklyScheduleGrid from "./WeeklyScheduleGrid";
+import "./AdvancedSchedulerForm.css";
 
 /**
  * AdvancedSchedulerForm - Comprehensive scheduling interface
@@ -156,29 +157,29 @@ function AdvancedSchedulerForm({ onGenerate, subjects }) {
   };
 
   return (
-    <div className="w-full bg-gradient-to-br from-purple-50 via-white to-blue-50 rounded-2xl shadow-lg p-6 mb-8 border border-purple-200">
+    <div className="advanced-scheduler-wrapper w-full max-w-full bg-gradient-to-br from-purple-50 via-white to-blue-50 rounded-2xl shadow-lg p-3 sm:p-4 md:p-6 mb-4 md:mb-8 border border-purple-200">
       {/* Header with Step Number */}
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-3">
-          <div className="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold text-lg">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 md:mb-6 gap-3">
+        <div className="flex items-center gap-2 md:gap-3 flex-1">
+          <div className="step-circle flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold text-base sm:text-lg flex-shrink-0">
             2
           </div>
-          <div>
-            <h2 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+          <div className="flex-1 min-w-0">
+            <h2 className="text-lg sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent leading-tight">
               Configure Your Schedule
             </h2>
-            <p className="text-sm text-gray-600">
+            <p className="text-xs sm:text-sm text-gray-600 mt-1">
               Mark busy hours, add commitments, and set preferences
             </p>
           </div>
         </div>
-        <span className="px-3 py-1 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-xs font-semibold rounded-full shadow-md">
+        <span className="px-2 sm:px-3 py-1 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-xs font-semibold rounded-full shadow-md self-end sm:self-auto flex-shrink-0">
           PREVIEW
         </span>
       </div>
 
       {/* Tab Navigation */}
-      <div className="flex flex-wrap gap-2 mb-6 border-b border-gray-200 pb-2">
+      <div className="tab-navigation flex flex-wrap gap-1.5 sm:gap-2 mb-4 md:mb-6 border-b border-gray-200 pb-2">
         {[
           { id: "manual", label: "📝 Manual Input", icon: "📝" },
           { id: "commitments", label: "⏰ Commitments", icon: "⏰" },
@@ -188,7 +189,7 @@ function AdvancedSchedulerForm({ onGenerate, subjects }) {
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
+            className={`px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm md:text-base font-medium transition-all duration-200 ${
               activeTab === tab.id
                 ? "bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-md"
                 : "bg-gray-100 text-gray-700 hover:bg-gray-200"
@@ -369,10 +370,12 @@ function AdvancedSchedulerForm({ onGenerate, subjects }) {
               calendar.
             </p>
 
-            <WeeklyScheduleGrid
-              schedule={schedule}
-              onScheduleChange={setSchedule}
-            />
+            <div className="calendar-wrapper">
+              <WeeklyScheduleGrid
+                schedule={schedule}
+                onScheduleChange={setSchedule}
+              />
+            </div>
           </div>
         )}
 
@@ -402,8 +405,8 @@ function AdvancedSchedulerForm({ onGenerate, subjects }) {
                 {commitments.map((commitment, idx) => (
                   <div
                     key={idx}
-                    className="p-4 border border-gray-300 rounded-lg bg-gray-50">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    className="commitment-card p-4 border border-gray-300 rounded-lg bg-gray-50">
+                    <div className="form-grid grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
                           Activity Name
@@ -469,7 +472,7 @@ function AdvancedSchedulerForm({ onGenerate, subjects }) {
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                           Days of Week
                         </label>
-                        <div className="flex flex-wrap gap-2">
+                        <div className="day-selector flex flex-wrap gap-2">
                           {[
                             "Mon",
                             "Tue",
@@ -555,7 +558,7 @@ function AdvancedSchedulerForm({ onGenerate, subjects }) {
               <h4 className="text-sm font-semibold text-gray-800 mb-3">
                 🍅 Pomodoro Timer Settings
               </h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="form-grid grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm text-gray-700 mb-1">
                     Focus Duration (minutes)
@@ -671,7 +674,7 @@ function AdvancedSchedulerForm({ onGenerate, subjects }) {
               <h4 className="text-sm font-semibold text-gray-800 mb-3">
                 ⏱️ Session Length Preferences
               </h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="form-grid grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm text-gray-700 mb-1">
                     Minimum Session Length (minutes)
@@ -717,7 +720,7 @@ function AdvancedSchedulerForm({ onGenerate, subjects }) {
               <h4 className="text-sm font-semibold text-gray-800 mb-3">
                 😴 Sleep Schedule
               </h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="form-grid grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm text-gray-700 mb-1">
                     Sleep Time (Hour, 24h format)
@@ -762,39 +765,36 @@ function AdvancedSchedulerForm({ onGenerate, subjects }) {
       </div>
 
       {/* Generate Buttons - Step 3 */}
-      <div className="mt-8 pt-6 border-t-2 border-purple-200">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold text-lg">
+      <div className="mt-4 sm:mt-6 md:mt-8 pt-4 sm:pt-6 border-t-2 border-purple-200">
+        <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-6">
+          <div className="step-circle flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold text-base sm:text-lg flex-shrink-0">
             3
           </div>
-          <div>
-            <h3 className="text-xl font-bold text-gray-800">
+          <div className="flex-1 min-w-0">
+            <h3 className="text-base sm:text-lg md:text-xl font-bold text-gray-800">
               Generate Your Study Plan
             </h3>
-            <p className="text-sm text-gray-600">
+            <p className="text-xs sm:text-sm text-gray-600 mt-1">
               Choose how you want to create your schedule
             </p>
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row justify-center gap-4">
+        <div className="generate-buttons flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
           <button
             onClick={() => handleGenerateAdvanced(false)}
-            className="px-8 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center gap-2 justify-center">
+            className="w-full sm:w-auto px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white text-sm sm:text-base font-bold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center gap-2 justify-center">
             📊 Generate Study Plan
-           
           </button>
           <button
             onClick={() => handleGenerateAdvanced(true)}
-            className="px-8 py-3 bg-gradient-to-r from-pink-600 to-purple-600 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center gap-2 justify-center">
+            className="w-full sm:w-auto px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 bg-gradient-to-r from-pink-600 to-purple-600 text-white text-sm sm:text-base font-bold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center gap-2 justify-center">
             🤖 Optimize with AI
-            <span className="text-xs px-2 py-0.5 bg-yellow-400 text-purple-900 rounded-full font-bold">
+            <span className="badge text-xs px-2 py-0.5 bg-yellow-400 text-purple-900 rounded-full font-bold">
               BETA
             </span>
           </button>
         </div>
-
-        
       </div>
     </div>
   );
