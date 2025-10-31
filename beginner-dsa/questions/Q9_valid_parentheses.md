@@ -1,23 +1,21 @@
-# Q9: Valid Parentheses
+def isValid(s: str) -> bool:
+    stack = []
+    mapping = {')': '(', '}': '{', ']': '['}
+    
+    for char in s:
+        if char in mapping:  # Agar closing bracket mila
+            if not stack or stack[-1] != mapping[char]:
+                return False
+            stack.pop()
+        else:  # Opening bracket mila
+            stack.append(char)
+    
+    return not stack  # Agar stack empty hai toh valid hai
 
-Given a string `s` containing just the characters `(`, `)`, `{`, `}`, `[` and `]`, determine if the input string is valid.
+# Example test cases
+print(isValid("()"))       # True
+print(isValid("()[]{}"))   # True
+print(isValid("(]"))       # False
+print(isValid("([{}])"))   # True
+print(isValid("((("))      # False
 
-An input string is valid if:
-
-1.  Open brackets must be closed by the same type of brackets.
-2.  Open brackets must be closed in the correct order.
-
-**Example 1:**
-
-**Input:** s = "()"
-**Output:** true
-
-**Example 2:**
-
-**Input:** s = "()[]{}"
-**Output:** true
-
-**Example 3:**
-
-**Input:** s = "(]"
-**Output:** false
