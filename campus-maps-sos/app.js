@@ -13,6 +13,19 @@ async function loadSVG() {
   const text = await res.text();
   mapRoot.innerHTML = text;
   svgDoc = mapRoot.querySelector('svg');
+  if(svgDoc){
+    // ensure SVG has an accessible title
+    let titleEl = svgDoc.querySelector('title');
+    if(!titleEl){
+      titleEl = document.createElementNS('http://www.w3.org/2000/svg','title');
+      titleEl.textContent = 'Floor 1 floorplan';
+      svgDoc.insertBefore(titleEl, svgDoc.firstChild);
+    }
+    const titleId = 'floorplan-title';
+    titleEl.id = titleId;
+    svgDoc.setAttribute('aria-labelledby', titleId);
+    svgDoc.setAttribute('role','img');
+  }
 }
 
 async function loadData() {
@@ -36,6 +49,8 @@ function renderSOS() {
 
 function showInfo(loc) {
   infoDiv.innerHTML = `<h3>${loc.name}</h3><div>${loc.type}</div><p>${loc.desc||''}</p><div class="access-badge">Accessibility: ${loc.accessibility||'n/a'}</div>`;
+  // announce to assistive tech
+  infoDiv.setAttribute('aria-live','polite');
 }
 
 function clearHighlights() {
@@ -68,6 +83,10 @@ function renderResults(list) {
   list.forEach(loc => {
     const li = document.createElement('li');
     li.textContent = `${loc.name} — ${loc.type}`;
+    li.setAttribute('role','option');
+    // ensure unique id for aria-activedescendant handling
+    li.id = `result-${loc.id}`;
+    li.setAttribute('aria-selected','false');
     li.addEventListener('click', () => {
       showInfo(loc);
       highlightLocation(loc, true);
@@ -137,7 +156,14 @@ function setupSearch(){
 function updateHighlightInList(){
   const items = resultsList.querySelectorAll('li');
   items.forEach((it, idx) => {
-    if(idx === highlightedIndex) it.classList.add('active'); else it.classList.remove('active');
+    if(idx === highlightedIndex){
+      it.classList.add('active');
+      it.setAttribute('aria-selected','true');
+      resultsList.setAttribute('aria-activedescendant', it.id);
+    } else {
+      it.classList.remove('active');
+      it.setAttribute('aria-selected','false');
+    }
   });
   // keep highlighted item in view
   const active = resultsList.querySelector('li.active');
@@ -149,6 +175,9 @@ async function init(){
   await loadData();
   renderResults(locations);
   renderSOS();
+  // accessibility: set live regions for panels
+  infoDiv.setAttribute('aria-live','polite');
+  sosDiv.setAttribute('aria-live','polite');
   setupSearch();
   // attach click handlers to svg elements to show info
   if(svgDoc){
