@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Campus Maps & SOS</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Campus Maps & SOS</h1>
+  </header>
+  <main>
+    <section id="map-area">
+      <div id="map" role="img" aria-label="Campus floorplan">Loading map…</div>
+    </section>
+
+    <aside id="sidebar">
+      <div class="panel" role="search" aria-label="Finder">
+        <label for="search">Finder</label>
+        <input id="search" placeholder="Search rooms, faculty, labs..." aria-label="Search locations" />
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <button id="download-data" type="button" aria-label="Download sample locations as JSON">Download sample data</button>
+          <a id="contribute-link" href="../" target="_blank" rel="noopener" class="btn-link">How to contribute</a>
+        </div>
+        <ul id="results" role="listbox" aria-label="Search results"></ul>
+      </div>
+
+      <div class="panel" id="info-panel">
+        <h2>Location info</h2>
+        <div id="info">Select a result to see details.</div>
+      </div>
+
+      <div class="panel" id="sos-panel">
+        <h2>Emergency / SOS</h2>
+        <div id="sos-contacts">Loading contacts…</div>
+      </div>
+    </aside>
+  </main>
+
+  <script src="app.js" type="module"></script>
+</body>
+</html>

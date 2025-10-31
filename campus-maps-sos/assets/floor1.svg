@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <style>
+    .room{fill:#f8fbff;stroke:#cfe0ff;stroke-width:2}
+    .label{font-family:Arial;font-size:14px;fill:#05335a}
+  </style>
+  <rect x="20" y="20" width="360" height="240" rx="8" ry="8" fill="#fff" stroke="#e6eefc"/>
+  <g id="room-101" class="room" transform="translate(40,40)">
+    <rect x="0" y="0" width="140" height="80" rx="6" ry="6"/>
+    <text x="12" y="26" class="label">CS Lab 101</text>
+  </g>
+
+  <g id="room-102" class="room" transform="translate(200,40)">
+    <rect x="0" y="0" width="160" height="120" rx="6" ry="6"/>
+    <text x="12" y="26" class="label">Lecture Hall 102</text>
+  </g>
+
+  <g id="room-l201" class="room" transform="translate(40,150)">
+    <rect x="0" y="0" width="320" height="100" rx="6" ry="6"/>
+    <text x="12" y="26" class="label">Electronics Lab L201</text>
+  </g>
+</svg>
