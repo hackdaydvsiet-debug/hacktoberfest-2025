@@ -1,0 +1,137 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@plugin "daisyui";
+
+
+:root {
+	font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+	line-height: 1.5;
+	font-weight: 400;
+}
+
+#root {
+	margin: 0 auto;
+	text-align: center;
+}
+
+body {
+	background: linear-gradient(to bottom right, #89f7fe, #66a6ff, #7f53ac);
+	margin: 0;
+	min-height: 100vh;
+	background-size: cover;
+	background-position: center;
+}
+
+/* dark mode looking scrollbar */
+::-webkit-scrollbar {
+	width: 8px;
+}
+
+::-webkit-scrollbar-track {
+	background: #555;
+}
+
+::-webkit-scrollbar-thumb {
+	background: #121212;
+	border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: #242424;
+}
+
+/* Custom Animations */
+@keyframes gradient-xy {
+
+	0%,
+	100% {
+		background-position: 0% 50%;
+	}
+
+	50% {
+		background-position: 100% 50%;
+	}
+}
+
+@keyframes fade-in {
+	from {
+		opacity: 0;
+		transform: translateY(10px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes slide-down {
+	from {
+		opacity: 0;
+		max-height: 0;
+		transform: translateY(-10px);
+	}
+
+	to {
+		opacity: 1;
+		max-height: 1000px;
+		transform: translateY(0);
+	}
+}
+
+@keyframes bounce-slow {
+
+	0%,
+	100% {
+		transform: translateY(0);
+	}
+
+	50% {
+		transform: translateY(-10px);
+	}
+}
+
+@keyframes shake {
+
+	0%,
+	100% {
+		transform: translateX(0);
+	}
+
+	10%,
+	30%,
+	50%,
+	70%,
+	90% {
+		transform: translateX(-5px);
+	}
+
+	20%,
+	40%,
+	60%,
+	80% {
+		transform: translateX(5px);
+	}
+}
+
+.animate-gradient-xy {
+	background-size: 200% 200%;
+	animation: gradient-xy 3s ease infinite;
+}
+
+.animate-fade-in {
+	animation: fade-in 0.6s ease-out forwards;
+}
+
+.animate-slide-down {
+	animation: slide-down 0.5s ease-out forwards;
+}
+
+.animate-bounce-slow {
+	animation: bounce-slow 2s ease-in-out infinite;
+}
+
+.animate-shake {
+	animation: shake 0.5s ease-in-out;
+}
