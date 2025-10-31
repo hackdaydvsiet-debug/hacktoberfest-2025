@@ -1,25 +1,17 @@
-# Q5: Number of Islands
+# -----------------------------------------
+# Number of Islands - Hacktoberfest Edition
+# -----------------------------------------
 
-Given a 2D grid map of `'1'`s (land) and `'0'`s (water), count the number of islands. An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are all surrounded by water.
+from typing import List
 
-**Example 1:**
+class Solution:
+    def numIslands(self, grid: List[List[str]]) -> int:
+        if not grid:
+            return 0
+        
+        rows, cols = len(grid), len(grid[0])
+        island_count = 0
 
-**Input:**
-```
-11110
-11010
-11000
-00000
-```
-**Output:** 1
-
-**Example 2:**
-
-**Input:**
-```
-11000
-11000
-00100
-00011
-```
-**Output:** 3
+        def dfs(r, c):
+            # Base conditions: stop if out of bounds or water
+            if r < 0 or r >= rows or c < 0
