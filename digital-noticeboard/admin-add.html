@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Post - Admin</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="add-content">
+  <img src="logo-dark.png" alt="" style="width: 100px;">
+  <div class="form-box">
+    <h2>Add New Post</h2>
+    <form action="admin-dashboard.html">
+      <label>Title</label>
+      <input type="text" placeholder="Enter title" required>
+
+      <label>Description</label>
+      <textarea rows="5" placeholder="Enter details here..." required></textarea>
+
+      <label>Category</label>
+      <select required>
+        <option value="">Select</option>
+        <option>Event</option>
+        <option>Circular</option>
+        <option>Lost & Found</option>
+      </select>
+
+      <button type="submit">Post</button>
+    </form>
+  </div>
+</body>
+</html>
