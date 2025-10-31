@@ -1,0 +1,5 @@
+[
+  {"type":"Security","name":"Campus Security","phone":"+911234567890","notes":"Available 24/7"},
+  {"type":"Medical","name":"Health Center","phone":"+911098765432","notes":"Weekdays 9:00–17:00"},
+  {"type":"Fire","name":"Fire Station (local)","phone":"+911112","notes":"Call in emergency"}
+]

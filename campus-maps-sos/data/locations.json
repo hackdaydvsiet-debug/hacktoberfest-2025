@@ -1,0 +1,29 @@
+[
+  {
+    "id": "101",
+    "name": "CS Lab 101",
+    "type": "Computer Lab",
+    "svgId": "room-101",
+    "desc": "Undergraduate computer lab with 30 workstations.",
+    "accessibility": "Ramp access, wide doors",
+    "tags": ["lab","cs","computing"]
+  },
+  {
+    "id": "102",
+    "name": "Lecture Hall 102",
+    "type": "Lecture Hall",
+    "svgId": "room-102",
+    "desc": "Main lecture hall with projector and AV.",
+    "accessibility": "Wheelchair seating available",
+    "tags": ["hall","lecture"]
+  },
+  {
+    "id": "L201",
+    "name": "Electronics Lab L201",
+    "type": "Lab",
+    "svgId": "room-l201",
+    "desc": "Electronics lab with benchtops and instruments.",
+    "accessibility": "Step-free access",
+    "tags": ["lab","electronics"]
+  }
+]
