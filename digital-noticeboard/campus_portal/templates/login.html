@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-md mx-auto">
+  <form method="POST" class="bg-white p-6 rounded shadow">
+    <h2 class="text-xl font-bold mb-4 text-center">Login</h2>
+    <input name="username" class="border rounded p-2 w-full mb-3" placeholder="Username" required>
+    <input name="password" type="password" class="border rounded p-2 w-full mb-3" placeholder="Password" required>
+    <button class="bg-sky-600 text-white rounded p-2 w-full">Login</button>
+  </form>
+  <div class="mt-4 text-sm text-gray-600">
+    <p>Demo accounts: <strong>admin / admin123</strong> and <strong>student1 / stud123</strong></p>
+  </div>
+</div>
+{% endblock %}
