@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Campus Portal</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <nav class="bg-white shadow">
+    <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="{{ url_for('index') }}" class="font-bold text-sky-600">Campus Portal</a>
+      <div class="flex items-center gap-3">
+        <a href="{{ url_for('index') }}" class="text-gray-700 hover:text-sky-600">Home</a>
+        <a href="{{ url_for('report') }}" class="text-gray-700 hover:text-sky-600">Lost & Found</a>
+        <a href="{{ url_for('notices') }}" class="text-gray-700 hover:text-sky-600">Notices</a>
+        {% if session.get('username') %}
+          <span class="text-sm text-gray-500">Hi, {{ session.get('username') }}{% if session.get('role') %} ({{ session.get('role') }}){% endif %}</span>
+          <a href="{{ url_for('logout') }}" class="text-red-600">Logout</a>
+        {% else %}
+          <a href="{{ url_for('login') }}" class="text-sky-600">Login</a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+  <main class="max-w-4xl mx-auto px-4 py-6">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="space-y-2 mb-4">
+          {% for category, msg in messages %}
+            <div class="px-4 py-2 rounded {{ 'bg-green-100 text-green-800' if category=='success' else 'bg-yellow-100 text-yellow-800' }}">
+              {{ msg }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>
