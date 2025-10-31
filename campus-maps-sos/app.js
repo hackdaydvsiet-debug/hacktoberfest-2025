@@ -74,22 +74,74 @@ function renderResults(list) {
     });
     li.addEventListener('mouseenter', () => highlightLocation(loc,false));
     li.addEventListener('mouseleave', () => clearHighlights());
+    li.tabIndex = 0;
+    li.addEventListener('focus', () => {
+      const idx = Array.prototype.indexOf.call(resultsList.children, li);
+      highlightedIndex = idx; updateHighlightInList();
+    });
+    li.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter') { li.click(); }
+    });
     resultsList.appendChild(li);
   });
 }
 
-function fuzzyMatch(q, loc){
+// download sample locations JSON for contributors to edit
+document.getElementById('download-data').addEventListener('click', () => {
+  const blob = new Blob([JSON.stringify(locations, null, 2)], {type: 'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'locations-sample.json'; document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(url);
+});
+
+
+// simple fuzzy scoring: name matches weigh more, then type, then tags
+function scoreMatch(q, loc){
   const t = q.toLowerCase();
-  return loc.name.toLowerCase().includes(t) || (loc.type||'').toLowerCase().includes(t) || (loc.tags||[]).join(' ').toLowerCase().includes(t);
+  let score = 0;
+  if(loc.name.toLowerCase() === t) score += 100;
+  if(loc.name.toLowerCase().includes(t)) score += 50;
+  if((loc.type||'').toLowerCase().includes(t)) score += 20;
+  if((loc.tags||[]).join(' ').toLowerCase().includes(t)) score += 10;
+  return score;
 }
+
+let currentResults = [];
+let highlightedIndex = -1;
 
 function setupSearch(){
   searchInput.addEventListener('input', (e) => {
     const q = e.target.value.trim();
-    if(q.length===0){ renderResults(locations); return; }
-    const matches = locations.filter(l => fuzzyMatch(q,l));
-    renderResults(matches);
+    if(q.length===0){ currentResults = locations.slice(); renderResults(currentResults); return; }
+    const scored = locations.map(l => ({l,score: scoreMatch(q,l)})).filter(x => x.score>0);
+    scored.sort((a,b)=>b.score-a.score);
+    currentResults = scored.map(x=>x.l);
+    highlightedIndex = -1;
+    renderResults(currentResults);
   });
+
+  // keyboard navigation: up/down to move, enter to select
+  searchInput.addEventListener('keydown', (e) => {
+    if(currentResults.length===0) return;
+    if(e.key === 'ArrowDown'){
+      e.preventDefault(); highlightedIndex = Math.min(highlightedIndex+1, currentResults.length-1); updateHighlightInList();
+    } else if(e.key === 'ArrowUp'){
+      e.preventDefault(); highlightedIndex = Math.max(highlightedIndex-1, 0); updateHighlightInList();
+    } else if(e.key === 'Enter'){
+      e.preventDefault(); if(highlightedIndex>=0 && currentResults[highlightedIndex]){ const loc = currentResults[highlightedIndex]; showInfo(loc); highlightLocation(loc,true); }
+    }
+  });
+}
+
+function updateHighlightInList(){
+  const items = resultsList.querySelectorAll('li');
+  items.forEach((it, idx) => {
+    if(idx === highlightedIndex) it.classList.add('active'); else it.classList.remove('active');
+  });
+  // keep highlighted item in view
+  const active = resultsList.querySelector('li.active');
+  if(active) active.scrollIntoView({block:'nearest'});
 }
 
 async function init(){

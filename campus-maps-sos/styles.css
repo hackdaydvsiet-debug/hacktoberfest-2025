@@ -14,6 +14,11 @@ main{display:flex;gap:16px;padding:16px}
 #results{list-style:none;padding:0;margin:8px 0 0 0;max-height:220px;overflow:auto}
 #results li{padding:8px;border-radius:6px;margin-bottom:6px;cursor:pointer;border:1px dashed transparent}
 #results li:hover{background:#f1f6ff;border-color:#d8e6ff}
+.active{background:#e8f0ff;border-color:#bcd7ff}
+#download-data{padding:6px 8px;border-radius:6px;border:1px solid #d9e0ea;background:#fff}
+#download-data:hover{background:#fbfdff}
+.btn-link{color:var(--accent);text-decoration:none;padding:6px 8px;border-radius:6px}
+.btn-link:hover{text-decoration:underline}
 .room-highlight{outline:4px solid rgba(43,124,255,0.18);fill:rgba(43,124,255,0.06)}
 .room-selected{outline:4px solid rgba(43,124,255,0.28);fill:rgba(43,124,255,0.12)}
 #info{font-size:14px;color:var(--muted)}

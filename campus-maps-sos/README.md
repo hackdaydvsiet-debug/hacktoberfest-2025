@@ -24,3 +24,17 @@ If this link should point to a specific branch or PR, mention it in an issue or 
 
 Contributors
 - @Ethicalmind — Hacktoberfest 2025 (Hackathon submission)
+
+How to contribute
+- Edit `campus-maps-sos/data/locations.json` to add or update rooms, accessibility info and tags.
+- Run the prototype locally to verify changes:
+
+```bash
+python -m http.server 8000
+# open http://localhost:8000/campus-maps-sos/index.html
+```
+
+- Commit your changes to a feature branch and open a pull request against `main`. Include a short description of the data you changed and why.
+- If you want to submit this as a hackathon entry, include "Hacktoberfest 2025" in your PR title or description.
+
+If you'd like, you can download the sample locations JSON from the Finder panel and edit it locally before submitting.
