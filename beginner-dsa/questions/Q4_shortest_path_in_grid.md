@@ -1,12 +1,20 @@
-# Q4: Shortest Path in a Grid
+from collections import deque
 
-Given an `m x n` grid where each cell can be a wall, an open space, or the start/end point, find the shortest path from the start to the end.
+def shortest_path_in_grid(grid, start, end):
+    m, n = len(grid), len(grid[0])
+    queue = deque()
+    visited = [[False]*n for _ in range(m)]
+    queue.append((start[0], start[1], 0))  # (row, col, steps)
+    visited[start[0]][start[1]] = True
 
-You can move up, down, left, or right. You cannot move through walls.
-
-**Input:**
-*   An `m x n` grid.
-*   The coordinates of the start and end points.
-
-**Output:**
-*   The length of the shortest path. If no path exists, return -1.
+    directions = [(-1,0), (1,0), (0,-1), (0,1)]
+    while queue:
+        r, c, steps = queue.popleft()
+        if (r, c) == end:
+            return steps
+        for dr, dc in directions:
+            nr, nc = r + dr, c + dc
+            if 0 <= nr < m and 0 <= nc < n and not visited[nr][nc] and grid[nr][nc] != 1:
+                visited[nr][nc] = True
+                queue.append((nr, nc, steps+1))
+    return -1
