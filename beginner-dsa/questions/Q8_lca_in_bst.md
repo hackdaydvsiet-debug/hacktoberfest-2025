@@ -1,23 +1,23 @@
-# Q8: Lowest Common Ancestor in a BST
+# Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
 
-Given a binary search tree (BST), find the lowest common ancestor (LCA) of two given nodes in the BST.
 
-The lowest common ancestor is defined between two nodes `p` and `q` as the lowest node in `T` that has both `p` and `q` as descendants (where we allow a node to be a descendant of itself).
-
-**Example:**
-
-Given the following BST:
-```
-      6
-     / \
-    2   8
-   / \ / \
-  0   4 7   9
-     / \
-    3   5
-```
-
-LCA of nodes 2 and 8 is 6.
-LCA of nodes 2 and 4 is 2.
-
-```
+class Solution:
+    def lowestCommonAncestor(self, root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:
+        # Traverse the tree starting from the root
+        while root:
+            # If both p and q are smaller than root, LCA is in the left subtree
+            if p.val < root.val and q.val < root.val:
+                root = root.left
+            
+            # If both p and q are greater than root, LCA is in the right subtree
+            elif p.val > root.val and q.val > root.val:
+                root = root.right
+            
+            # If p and q are on different sides, or one equals root, root is LCA
+            else:
+                return root
