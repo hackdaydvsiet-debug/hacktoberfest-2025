@@ -1,10 +1,29 @@
-# Q1: Odd Even Linked List
+#include <iostream>
+#include <list>
+using namespace std;
 
-Given a singly linked list, group all odd nodes together followed by the even nodes. Please note here we are talking about the node number and not the value in the nodes.
+int main() {
+    list<int> mylist = {1, 2, 3, 4, 5};  // Input list
+    list<int> odd_node;
+    list<int> even_node;
 
-You should try to do it in-place. The program should run in O(1) space complexity and O(nodes) time complexity.
+    int index = 1;
+    for (auto it = mylist.begin(); it != mylist.end(); ++it, ++index) {
+        if (index % 2 != 0) {
+            odd_node.push_back(*it);  // odd-positioned node
+        } else {
+            even_node.push_back(*it); // even-positioned node
+        }
+    }
 
-**Example:**
+    // Combine odd and even lists
+    odd_node.insert(odd_node.end(), even_node.begin(), even_node.end());
 
-**Input:** `1->2->3->4->5->NULL`
-**Output:** `1->3->5->2->4->NULL`
+    // Print result
+    for (int val : odd_node) {
+        cout << val << "->";
+    }
+    cout << "NULL" << endl;
+
+    return 0;
+}
