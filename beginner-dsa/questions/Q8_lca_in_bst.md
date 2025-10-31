@@ -1,23 +1,53 @@
-# Q8: Lowest Common Ancestor in a BST
+# Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
 
-Given a binary search tree (BST), find the lowest common ancestor (LCA) of two given nodes in the BST.
 
-The lowest common ancestor is defined between two nodes `p` and `q` as the lowest node in `T` that has both `p` and `q` as descendants (where we allow a node to be a descendant of itself).
+class Solution:
+    def lowestCommonAncestor(self, root, p, q):
+        # Traverse the BST
+        while root:
+            if p.val < root.val and q.val < root.val:
+                # Both nodes are in the left subtree
+                root = root.left
+            elif p.val > root.val and q.val > root.val:
+                # Both nodes are in the right subtree
+                root = root.right
+            else:
+                # Split occurs — root is the LCA
+                return root
+        return None
 
-**Example:**
 
-Given the following BST:
-```
-      6
-     / \
-    2   8
-   / \ / \
-  0   4 7   9
-     / \
-    3   5
-```
+# Helper function to insert nodes in BST
+def insert(root, val):
+    if not root:
+        return TreeNode(val)
+    if val < root.val:
+        root.left = insert(root.left, val)
+    else:
+        root.right = insert(root.right, val)
+    return root
 
-LCA of nodes 2 and 8 is 6.
-LCA of nodes 2 and 4 is 2.
 
-```
+# Example usage
+if __name__ == "__main__":
+    # Construct the given BST
+    vals = [6, 2, 8, 0, 4, 7, 9, 3, 5]
+    root = None
+    for v in vals:
+        root = insert(root, v)
+
+    p = root.left        # Node with value 2
+    q = root.right       # Node with value 8
+    sol = Solution()
+    lca = sol.lowestCommonAncestor(root, p, q)
+    print("LCA of nodes 2 and 8 is:", lca.val)
+
+    p = root.left        # Node with value 2
+    q = root.left.right  # Node with value 4
+    lca = sol.lowestCommonAncestor(root, p, q)
+    print("LCA of nodes 2 and 4 is:", lca.val)
