@@ -1,9 +1,36 @@
-# Q7: Merge Sort and Counting Inversions
+def merge_sort(arr):
+    if len(arr) <= 1:
+        return arr
 
-## Merge Sort
+    mid = len(arr) // 2
+    left = merge_sort(arr[:mid])
+    right = merge_sort(arr[mid:])
 
-Implement the Merge Sort algorithm to sort an array of integers in ascending order.
+    return merge(left, right)
 
-## Counting Inversions
 
-While implementing Merge Sort, count the number of inversions in the array. An inversion is a pair of indices `(i, j)` such that `i < j` and `array[i] > array[j]`.
+def merge(left, right):
+    result = []
+    i = j = 0
+
+    # Merge two sorted halves
+    while i < len(left) and j < len(right):
+        if left[i] <= right[j]:
+            result.append(left[i])
+            i += 1
+        else:
+            result.append(right[j])
+            j += 1
+
+    # Append remaining elements
+    result.extend(left[i:])
+    result.extend(right[j:])
+    return result
+
+
+# Example usage
+if __name__ == "__main__":
+    arr = [12, 11, 13, 5, 6, 7]
+    print("Original array:", arr)
+    sorted_arr = merge_sort(arr)
+    print("Sorted array:", sorted_arr)
