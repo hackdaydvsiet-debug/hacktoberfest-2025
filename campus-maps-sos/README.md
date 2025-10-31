@@ -21,3 +21,6 @@ Related projects
 - External example: Alert-yaar24 branches — https://github.com/Ethicalmind/Alert-yaar24/branches
 
 If this link should point to a specific branch or PR, mention it in an issue or provide the exact URL and I'll update this file.
+
+Contributors
+- @Ethicalmind — Hacktoberfest 2025 (Hackathon submission)
