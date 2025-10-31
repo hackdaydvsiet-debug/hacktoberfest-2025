@@ -1,12 +1,36 @@
-# Q2: Min Stack
+import java.util.Stack;
 
-Design a stack that supports push, pop, top, and retrieving the minimum element in constant time.
+class MinStack {
+    private Stack<Integer> mainStack;
+    private Stack<Integer> minStack;
 
-Implement the `MinStack` class:
-*   `MinStack()` initializes the stack object.
-*   `void push(int val)` pushes the element `val` onto the stack.
-*   `void pop()` removes the element on the top of the stack.
-*   `int top()` gets the top element of the stack.
-*   `int getMin()` retrieves the minimum element in the stack.
+    public MinStack() {
+        mainStack = new Stack<>();
+        minStack = new Stack<>();
+    }
 
-You must implement a solution with `O(1)` time complexity for each function.
+    public void push(int val) {
+        mainStack.push(val);
+        if (minStack.isEmpty() || val <= minStack.peek()) {
+            minStack.push(val);
+        }
+    }
+
+    public void pop() {
+        if (mainStack.isEmpty()) return;
+        int removed = mainStack.pop();
+        if (removed == minStack.peek()) {
+            minStack.pop();
+        }
+    }
+
+    public int top() {
+        if (mainStack.isEmpty()) throw new RuntimeException("Stack is empty");
+        return mainStack.peek();
+    }
+
+    public int getMin() {
+        if (minStack.isEmpty()) throw new RuntimeException("Stack is empty");
+        return minStack.peek();
+    }
+}
