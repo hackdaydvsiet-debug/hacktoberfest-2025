@@ -1,10 +1,21 @@
-# Q1: Odd Even Linked List
+# Original list
+mylist = [1, 2, 3, 4, 5]
 
-Given a singly linked list, group all odd nodes together followed by the even nodes. Please note here we are talking about the node number and not the value in the nodes.
+# Lists to hold odd and even-positioned elements
+odd_node = []
+even_node = []
 
-You should try to do it in-place. The program should run in O(1) space complexity and O(nodes) time complexity.
+# Loop through the list with index starting from 1
+for index, value in enumerate(mylist, start=1):
+    if index % 2 != 0:
+        odd_node.append(value)  # odd-positioned
+    else:
+        even_node.append(value)  # even-positioned
 
-**Example:**
+# Merge odd and even lists
+merged_list = odd_node + even_node
 
-**Input:** `1->2->3->4->5->NULL`
-**Output:** `1->3->5->2->4->NULL`
+# Print the result
+for val in merged_list:
+    print(f"{val}->", end="")
+print("NULL")
