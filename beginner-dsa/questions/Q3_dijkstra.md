@@ -1,12 +1,23 @@
-# Q3: Dijkstra's Algorithm
+# -----------------------------------------------------------
+# Dijkstra's Algorithm - Hacktoberfest 2025 (Beginner DSA)
+# File: hacktoberfest-2025/beginner-dsa/questions/Q3_dijkstra.md
+# -----------------------------------------------------------
 
-Given a graph and a source vertex in the graph, find the shortest paths from the source to all other vertices in the given graph.
+import heapq
 
-The graph can be represented as an adjacency list or an adjacency matrix. You can assume that the graph has non-negative edge weights.
+def dijkstra(graph, source):
+    """
+    Finds the shortest path from a source vertex to all other vertices
+    in a graph using Dijkstra's algorithm.
 
-**Input:**
-*   A graph with `V` vertices and `E` edges.
-*   A source vertex `S`.
+    Parameters:
+        graph  (dict): Adjacency list representation of the graph.
+                       Example: {0: [(1, 4), (2, 1)], 1: [(3, 1)], 2: [(1, 2), (3, 5)], 3: []}
+        source (int): The starting vertex.
 
-**Output:**
-*   The shortest distance from the source vertex `S` to every other vertex.
+    Returns:
+        dict: Shortest distances from source to each vertex.
+    """
+
+    # Initialize distances with infinity
+    distances = {vertex: float('inf') for vertex
