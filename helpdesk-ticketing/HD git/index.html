@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Helpdesk & Ticketing System</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-left">
+            <h1>Helpdesk & Ticketing System</h1>
+        </div>
+        <div class="header-right" title="Toggle User/Admin mode">
+            <span class="role-label">User</span>
+            <label class="switch">
+                <input type="checkbox" id="roleToggle" />
+                <span class="slider"></span>
+            </label>
+            <span class="role-label">Admin</span>
+            <span id="activeRole" class="active-role-badge">User Mode</span>
+        </div>
+    </header>
+
+    <main class="layout">
+        <section class="create-ticket card">
+            <h2>Create Ticket</h2>
+            <form id="ticketForm" autocomplete="off">
+                <div class="form-row">
+                    <label for="title">Title</label>
+                    <input type="text" id="title" name="title" placeholder="Short summary" required />
+                </div>
+                <div class="form-row">
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" rows="4" placeholder="Describe the issue" required></textarea>
+                </div>
+                <div class="form-grid">
+                    <div class="form-row">
+                        <label for="category">Category</label>
+                        <select id="category" name="category" required>
+                            <option value="IT">IT</option>
+                            <option value="Hostel">Hostel</option>
+                            <option value="Maintenance">Maintenance</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <label for="priority">Priority</label>
+                        <select id="priority" name="priority" required>
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                            <option value="Critical">Critical</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <label for="slaHours">SLA Hours</label>
+                        <input type="number" id="slaHours" name="slaHours" min="1" value="24" required />
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn primary">Create Ticket</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="ticket-list card">
+            <div class="ticket-list-header">
+                <h2>Ticket List</h2>
+                <div class="list-actions">
+                    <button id="exportBtn" class="btn ghost" title="Export tickets to JSON">Export</button>
+                    <input type="file" id="importFile" accept="application/json" class="hidden" />
+                    <button id="importBtn" class="btn ghost" title="Import tickets from JSON">Import</button>
+                    <button id="clearAll" class="btn danger ghost" title="Delete all tickets (Admin only)">Clear All</button>
+                </div>
+            </div>
+            <div class="ticket-filters">
+                <select id="filterCategory">
+                    <option value="">All Categories</option>
+                    <option value="IT">IT</option>
+                    <option value="Hostel">Hostel</option>
+                    <option value="Maintenance">Maintenance</option>
+                    <option value="Other">Other</option>
+                </select>
+                <select id="filterStatus">
+                    <option value="">All Statuses</option>
+                    <option>Open</option>
+                    <option>In Progress</option>
+                    <option>Resolved</option>
+                    <option>Closed</option>
+                    <option>Escalated</option>
+                </select>
+                <select id="filterPriority">
+                    <option value="">All Priorities</option>
+                    <option>Low</option>
+                    <option>Medium</option>
+                    <option>High</option>
+                    <option>Critical</option>
+                </select>
+                <input id="searchText" type="search" placeholder="Search title/description" />
+                <select id="sortBy">
+                    <option value="created_desc">Newest</option>
+                    <option value="created_asc">Oldest</option>
+                    <option value="sla_asc">SLA: Least time left</option>
+                    <option value="sla_desc">SLA: Most time left</option>
+                    <option value="priority_desc">Priority: High → Low</option>
+                    <option value="priority_asc">Priority: Low → High</option>
+                </select>
+            </div>
+            <div class="bulk-actions" data-admin-only>
+                <span class="bulk-count" id="bulkCount">0 selected</span>
+                <select id="bulkStatus">
+                    <option value="">Change status...</option>
+                    <option>Open</option>
+                    <option>In Progress</option>
+                    <option>Resolved</option>
+                    <option>Closed</option>
+                    <option>Escalated</option>
+                </select>
+                <button id="applyBulk" class="btn small">Apply</button>
+            </div>
+            <div id="ticketsContainer" class="tickets"></div>
+            <div id="emptyState" class="empty-state hidden">No tickets yet. Create one to get started.</div>
+        </section>
+    </main>
+
+    <footer class="app-footer">
+        <span>All data stored locally in your browser (localStorage).</span>
+    </footer>
+
+    <script src="script.js"></script>
+    <noscript>Your browser must support JavaScript to use this app.</noscript>
+</body>
+</html>
+
+
