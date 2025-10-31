@@ -50,6 +50,17 @@ app.get("/", (req, res) => {
     message: "Hello World from Express!",
     app_name: process.env.APP_NAME || "Express Backend",
     version: process.env.API_VERSION || "v1",
+    status: "running",
+  });
+});
+
+// Health check endpoint
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    status: "healthy",
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    environment: process.env.NODE_ENV || "development",
   });
 });
 

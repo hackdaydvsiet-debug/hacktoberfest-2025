@@ -8,7 +8,7 @@ Live URL: https://studyvibe.tech
 
 If this is not the current deployment, replace the URL with your latest Vercel/Netlify link.
 
-## Why and what (judge-friendly overview)
+## Why and what
 
 - Problem: Students struggle to plan consistent study sessions across multiple subjects with different deadlines and difficulty levels.
 - Solution: StudyVibe generates a balanced schedule and visualizes it on a calendar and grid, adapting to user availability, preferred times, and study style.
@@ -44,6 +44,13 @@ There are two complementary generators in `src/utils/`:
 
 This yields a practical plan with earlier focus on urgent and harder subjects while keeping sessions within preferred times.
 
+## Demo login
+
+Explore the app instantly without creating an account:
+
+- On the Login page, click "Continue as Demo User".
+- Demo mode persists across refresh and ends when you log out.
+
 ## Architecture and stack
 
 - React + Vite frontend
@@ -51,10 +58,7 @@ This yields a practical plan with earlier focus on urgent and harder subjects wh
 - FullCalendar for calendar visualization
 - Firebase (Auth) for sign‑in; app config via Vite env vars
 
-
 ## Screenshots
-
-
 
 ## Roadmap
 
