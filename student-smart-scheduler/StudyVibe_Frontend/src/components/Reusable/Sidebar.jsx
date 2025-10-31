@@ -2,16 +2,20 @@ import React, { useState, useRef, useEffect } from "react";
 import useLogout from "../../hooks/useLogout";
 import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import NotificationSettings from "./NotificationSettings";
 
 import {
   FaTachometerAlt,
   FaEnvelope,
   FaSignOutAlt,
   FaBars,
+  FaBook,
+  FaBell,
 } from "react-icons/fa";
 
 const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const sidebarRef = useRef(null);
 
   // Close sidebar when clicking outside of it
@@ -52,8 +56,22 @@ const Sidebar = () => {
     navigate("/contact");
   };
 
+  const navToBlog = () => {
+    navigate("/blog");
+  };
+
+  const openNotifications = () => {
+    setIsNotificationOpen(true);
+  };
+
   return (
     <>
+      {/* Notification Settings Modal */}
+      <NotificationSettings
+        isOpen={isNotificationOpen}
+        onClose={() => setIsNotificationOpen(false)}
+      />
+
       {/* Sidebar Toggle Button */}
       <button
         className="fixed top-4 left-4 z-50 btn btn-circle btn-ghost sidebar-toggle-btn"
@@ -81,8 +99,22 @@ const Sidebar = () => {
           </button>
           <button
             className="btn w-full btn-ghost justify-start gap-3 text-lg"
-            onClick={navToContact}
-          >
+            onClick={navToBlog}>
+            <FaBook className="text-primary" />
+            Blog
+          </button>
+          <button
+            className="btn w-full btn-ghost justify-start gap-3 text-lg relative"
+            onClick={openNotifications}>
+            <FaBell className="text-primary" />
+            Notifications
+            <span className="absolute top-1 right-1 bg-yellow-400 text-yellow-900 text-[10px] font-bold px-1.5 py-0.5 rounded-full">
+              DEV
+            </span>
+          </button>
+          <button
+            className="btn w-full btn-ghost justify-start gap-3 text-lg"
+            onClick={navToContact}>
             <FaEnvelope className="text-primary" />
             Contact Us
           </button>

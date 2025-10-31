@@ -6,9 +6,14 @@ A smart study planner that helps students turn subjects, deadlines, and preferen
 
 Live URL: https://studyvibe.tech
 
-If this is not the current deployment, replace the URL with your latest Vercel/Netlify link.
+
+The backend is live at https://studyvibe-backend.onrender.com
+
 
 ## Why and what
+
+PPT Link: https://drive.google.com/file/d/1_n9WYmxXJZ_yTAGU1UjWg4SNL37qiMyk/view?usp=drive_link
+
 
 - Problem: Students struggle to plan consistent study sessions across multiple subjects with different deadlines and difficulty levels.
 - Solution: StudyVibe generates a balanced schedule and visualizes it on a calendar and grid, adapting to user availability, preferred times, and study style.
@@ -66,3 +71,32 @@ Explore the app instantly without creating an account:
 - Collaboration (study buddy/shared plans)
 - Mobile‑first offline mode
 - Calendar export (Google/ICS)
+
+---
+
+## Feature overview (with status)
+
+- Smart timetable generator (deadlines, difficulty, available time) — Available
+- AI customization surface for refining study plans — Available
+- Weekly Schedule Grid and Calendar view (FullCalendar) — Available
+- Progress dashboard to track sessions and completion — Available
+- Authentication with Google (Firebase Auth) — Available
+- Demo login (“Continue as Demo User”) — Available
+
+Preview and roadmap status:
+
+- Quick Plan: AI Enhance — Preview
+- Notifications — Under development
+- Advanced Scheduler — Under development
+- Cloud storage/sync for produced schedules — Under development
+
+## Screenshots
+
+
+## Contributing
+
+Contributions are welcome! Please see the root `CONTRIBUTING.md` and the frontend docs in `StudyVibe_Frontend/` for project conventions.
+
+## License
+
+Licensed under the terms in the repository’s `LICENSE` file.

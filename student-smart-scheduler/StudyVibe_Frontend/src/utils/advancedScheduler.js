@@ -1,8 +1,7 @@
 import dayjs from "dayjs";
 
-/**
- * Converts decimal hours to hours and minutes, rounded to nearest 5 minutes
- */
+// Same helper functions as the basic planner
+// These make time display look nice for users
 function roundToNearestFiveMinutes(decimalHours) {
   const totalMinutes = Math.round(decimalHours * 60);
   const roundedMinutes = Math.round(totalMinutes / 5) * 5;
@@ -13,9 +12,6 @@ function roundToNearestFiveMinutes(decimalHours) {
   return { hours, minutes };
 }
 
-/**
- * Formats time object to readable string
- */
 function formatTime(time) {
   const { hours, minutes } = time;
 
@@ -35,17 +31,16 @@ function formatTime(time) {
   return result;
 }
 
-/**
- * Determine the preferred start hour based on user preferences
- * Returns the hour (0-23) when study session should start
- */
+// Figure out what time of day the user prefers to study
+// Some people are morning people, some are night owls
+// This tries to schedule sessions during their preferred times
 function getPreferredStartHour(preferences, sessionIndex = 0) {
   if (!preferences?.preferredTimes || preferences.preferredTimes.length === 0) {
-    // Default: start at 8 AM
+    // If they didn't specify, default to 8 AM (reasonable start time)
     return 8;
   }
 
-  // Map preferred time slots to hour ranges
+  // Map the friendly names to actual hours
   const timeSlots = {
     "Early Morning (5-8 AM)": [5, 6, 7],
     "Morning (8-12 PM)": [8, 9, 10, 11],
@@ -54,7 +49,7 @@ function getPreferredStartHour(preferences, sessionIndex = 0) {
     "Night (9 PM+)": [21, 22, 23],
   };
 
-  // Collect all preferred hours
+  // Build a list of all the hours they prefer
   let preferredHours = [];
   preferences.preferredTimes.forEach((timeStr) => {
     if (timeSlots[timeStr]) {
@@ -63,20 +58,19 @@ function getPreferredStartHour(preferences, sessionIndex = 0) {
   });
 
   if (preferredHours.length === 0) {
-    return 8; // Default fallback
+    return 8; // fallback if something went wrong
   }
 
-  // Sort hours chronologically
+  // Put them in order so sessions go chronologically
   preferredHours.sort((a, b) => a - b);
 
-  // Return the appropriate hour based on session index
-  // This spreads sessions across preferred time slots
+  // If they have multiple sessions in a day, spread them out
+  // e.g. session 0 at 9am, session 1 at 2pm, session 2 at 7pm
   return preferredHours[sessionIndex % preferredHours.length];
 }
 
-/**
- * Calculate available study hours for each day based on schedule and commitments
- */
+// This is where we get realistic about how much time someone actually has
+// We start with 24 hours and subtract sleep, classes, work, etc.
 function calculateDailyAvailableHours(
   schedule,
   commitments,
@@ -86,35 +80,35 @@ function calculateDailyAvailableHours(
   const dayName = dayOfWeek;
   const dayShort = dayOfWeek.substring(0, 3);
 
-  // Start with 24 hours
+  // Everyone starts with 24 hours in a day
   let availableHours = 24;
 
-  // Subtract sleep hours
+  // First, subtract sleep time (can't study while sleeping!)
   if (preferences?.sleepSchedule) {
     const { start, end } = preferences.sleepSchedule;
     if (start > end) {
-      // Sleep crosses midnight (e.g., 23:00 to 7:00)
+      // Handle cases like 11 PM to 7 AM (crosses midnight)
       availableHours -= 24 - start + end;
     } else {
       availableHours -= end - start;
     }
   }
 
-  // Subtract scheduled blocks from manual input (class, commitment, sleep blocks)
+  // Subtract any manual schedule blocks (classes, meetings, etc)
+  // The schedule is stored as "Monday-8" => {type: "class"} format
   if (schedule && typeof schedule === "object") {
     Object.entries(schedule).forEach(([key, block]) => {
-      // Key format: "Monday-8" or similar
       const [blockDay, blockHour] = key.split("-");
       if (blockDay === dayName && block && block.type) {
-        // Count all non-free blocks (class, commitment, sleep)
+        // If it's not free time, it's busy time
         if (block.type !== "free") {
-          availableHours -= 1; // Each block is 1 hour
+          availableHours -= 1; // each block is 1 hour
         }
       }
     });
   }
 
-  // Subtract additional commitments from the Commitments tab
+  // Also subtract any recurring commitments (like a part-time job)
   if (commitments && Array.isArray(commitments)) {
     commitments.forEach((commitment) => {
       if (commitment.days && commitment.days.includes(dayShort)) {
@@ -129,16 +123,18 @@ function calculateDailyAvailableHours(
     });
   }
 
-  // Ensure we have at least some study time
+  // Don't let it go negative (edge case protection)
   availableHours = Math.max(0, availableHours);
 
-  // Account for breaks if using Pomodoro (reduce by 15% for realistic break time)
+  // If they use Pomodoro technique, account for break time
+  // Can't study for 4 hours straight - gotta take breaks!
   if (preferences?.pomodoro && availableHours > 0) {
     const pomodoro = preferences.pomodoro;
     const focusMin = pomodoro.focusDuration || 25;
     const breakMin = pomodoro.breakDuration || 5;
 
-    // Calculate break overhead: break time / focus time
+    // Basically, for every 25 min of focus, you take a 5 min break
+    // So effective study time is reduced
     const breakOverhead = breakMin / focusMin;
     availableHours *= 1 - breakOverhead;
   }
@@ -146,15 +142,13 @@ function calculateDailyAvailableHours(
   return Math.max(0, availableHours);
 }
 
-/**
- * Generate advanced static study plan based on manual input
- * @param {Array} subjects - Array of subjects with examDate
- * @param {Object} schedule - Manual weekly schedule blocks
- * @param {Array} commitments - Additional commitments
- * @param {Object} preferences - User preferences including Pomodoro settings
- * @param {Number} studyHoursAvailable - Total study hours available per day
- * @returns {Object} Study plan in the format expected by frontend
- */
+// This is the main advanced scheduler
+// It's "advanced" because it considers way more factors than the basic one:
+// - Your actual schedule (classes, work, commitments)
+// - Subject difficulty (harder subjects get more time)
+// - Preferred study times (morning vs night person)
+// - Pomodoro breaks
+// - Min/max session lengths
 export function generateAdvancedStaticPlan(
   subjects,
   schedule,
@@ -162,6 +156,7 @@ export function generateAdvancedStaticPlan(
   preferences,
   studyHoursAvailable = 6
 ) {
+  // Debug logging - helpful when things don't work as expected
   console.log("🔍 Advanced Scheduler Input:", {
     subjects,
     schedule,
@@ -173,13 +168,13 @@ export function generateAdvancedStaticPlan(
   const today = dayjs().startOf("day");
   let plan = {};
 
-  // Validate inputs
+  // Quick sanity check
   if (!subjects || subjects.length === 0) {
     console.warn("⚠️ No subjects provided");
     return plan;
   }
 
-  // Prepare subjects and normalize exam dates
+  // Clean up the subject data and get difficulty ratings
   let subjectList = subjects.map((sub) => {
     const subjectName = sub.subject || sub.name;
     const difficulty = preferences?.subjectDifficulty?.[subjectName] || 3;
@@ -192,10 +187,10 @@ export function generateAdvancedStaticPlan(
     };
   });
 
-  // Sort by exam date (earliest first)
+  // Put them in order - earliest exams first
   subjectList.sort((a, b) => a.examDate.diff(b.examDate));
 
-  // Find the last exam date
+  // Figure out how many days we're planning for
   const lastExamDate = subjectList.reduce(
     (latest, sub) => (sub.examDate.isAfter(latest) ? sub.examDate : latest),
     today
@@ -227,7 +222,7 @@ export function generateAdvancedStaticPlan(
     `⏰ Total available study hours: ${totalAvailableStudyHours} (${studyHoursAvailable}hrs/day × ${totalDays} days)`
   );
 
-  // Map day index to day name
+  // Helper array for converting day numbers to names
   const dayNames = [
     "Sunday",
     "Monday",
@@ -238,19 +233,20 @@ export function generateAdvancedStaticPlan(
     "Saturday",
   ];
 
-  // Track total hours allocated per subject
+  // Keep track of how much time we've given each subject
+  // so we can balance things out as we go
   const allocatedHours = {};
   subjectList.forEach((sub) => {
     allocatedHours[sub.name] = 0;
   });
 
-  // For each day until the day before the last exam
+  // Now let's build the actual day-by-day plan
   for (let d = 0; d < totalDays; d++) {
     const currentDate = today.add(d, "day");
     const dateStr = currentDate.format("DD-MMMM-YYYY");
     const dayOfWeek = dayNames[currentDate.day()];
 
-    // Calculate available hours for this specific day
+    // How much free time do they have today?
     const availableHours = calculateDailyAvailableHours(
       schedule,
       commitments,
@@ -264,13 +260,13 @@ export function generateAdvancedStaticPlan(
       )} hours available`
     );
 
-    // Skip if no time available
+    // If they're super busy today, just skip it
     if (availableHours <= 0.5) {
       console.log(`⏭️ Skipping ${dateStr} - insufficient time`);
       continue;
     }
 
-    // Get subjects whose exams are still upcoming
+    // Only study for exams that haven't happened yet
     const activeSubjects = subjectList.filter(
       (sub) => sub.examDate.diff(currentDate, "day") > 0
     );
@@ -280,7 +276,8 @@ export function generateAdvancedStaticPlan(
       continue;
     }
 
-    // Calculate weights based on multiple factors
+    // Here's where it gets interesting - calculate priority weights
+    // This considers urgency, difficulty, and how behind we are
     let weights = {};
     let totalWeight = 0;
 
@@ -291,34 +288,37 @@ export function generateAdvancedStaticPlan(
         sub.totalHoursNeeded - allocatedHours[sub.name]
       );
 
-      // Skip if subject has received enough hours
+      // If we've already allocated enough time to this subject, skip it
       if (hoursRemaining < 0.25) {
         return;
       }
 
-      // Factor 1: Urgency - inverse of days left (closer exam = higher priority)
-      const urgencyWeight = 1 / Math.sqrt(daysLeft); // Square root to smooth the curve
+      // Now for the fun part - weighing different factors
 
-      // Factor 2: Difficulty multiplier (harder = more time needed)
-      const difficultyMultiplier = sub.difficulty / 3; // Scale: 1-5 difficulty
+      // 1. Urgency: Exams that are soon get higher priority
+      // Using square root so it doesn't get TOO crazy as exams approach
+      const urgencyWeight = 1 / Math.sqrt(daysLeft);
 
-      // Factor 3: Progress deficit (subjects with less progress get priority)
+      // 2. Difficulty: Harder subjects need more time
+      // Scale difficulty (1-5) relative to average difficulty (3)
+      const difficultyMultiplier = sub.difficulty / 3;
+
+      // 3. Catch-up factor: If we're behind on a subject, prioritize it
+      // If we've only done 30% of needed hours, this boosts the weight
       const progressRatio = allocatedHours[sub.name] / sub.totalHoursNeeded;
-      const progressDeficit = Math.max(0.5, 1 - progressRatio); // Boost subjects falling behind
+      const progressDeficit = Math.max(0.5, 1 - progressRatio);
 
-      // Factor 4: Hours remaining (prioritize subjects that still need time)
+      // 4. Total time needed: Subjects that need more hours overall get attention
       const hoursWeight = Math.sqrt(hoursRemaining);
 
-      // Combine all factors
+      // Multiply all these factors together to get final weight
       let weight =
         urgencyWeight * difficultyMultiplier * progressDeficit * hoursWeight;
-
-      // Factor 5: Day-based bonus (all days get base weight)
-      // The actual time slot preference is applied during session creation
 
       weights[sub.name] = weight;
       totalWeight += weight;
 
+      // Debug output so we can see what's happening
       console.log(
         `  📚 ${sub.name}: weight=${weight.toFixed(
           3

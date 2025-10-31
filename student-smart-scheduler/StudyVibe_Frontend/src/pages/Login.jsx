@@ -5,19 +5,24 @@ import Footer from "../components/Reusable/Footer";
 import { useContext } from "react";
 import { AuthContext } from "../contexts/authContext";
 
+// Login page with email/password and demo mode option
 const Login = () => {
+  // Form state
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  // Get login function and loading state from hook
   const { loading, login } = useLogin();
   const { loginAsDemo } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  // Handle regular login
   const handleSubmit = async (e) => {
     e.preventDefault();
     await login(email, password);
   };
 
+  // Handle demo mode (no account needed!)
   const handleDemo = () => {
     loginAsDemo();
     navigate("/");

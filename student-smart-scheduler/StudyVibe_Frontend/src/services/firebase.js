@@ -1,7 +1,9 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
-// Fetch config from environment variables
+// Firebase configuration
+// All these values come from .env file (using Vite's import.meta.env)
+// Never commit actual keys to git - use environment variables!
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
@@ -11,10 +13,12 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
-// Initialize Firebase
+// Initialize Firebase app with our config
 const app = initializeApp(firebaseConfig);
 
-// Initialize Firebase Authentication and get a reference to the service
+// Set up authentication
+// auth - main auth object for email/password, etc.
+// googleProvider - for Google sign-in (if we add it)
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 

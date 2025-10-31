@@ -1,4 +1,4 @@
-import Subject from '../models/subject.js';
+import Subject from '../models/Subject.js';
 
 export const upsertSubjects = async (req, res) => {
     try {

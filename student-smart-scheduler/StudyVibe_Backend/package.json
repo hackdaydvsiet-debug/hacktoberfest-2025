@@ -1,16 +1,33 @@
 {
-  "name": "backend",
+  "name": "studyvibe-backend",
   "version": "1.0.0",
   "type": "module",
   "main": "app/main.js",
+  "description": "Backend API for StudyVibe - A smart study scheduler and planner with AI integration",
   "scripts": {
+    "start": "node app/main.js",
     "server": "nodemon app/main.js",
-    "start": "node app/main.js"
+    "dev": "nodemon app/main.js"
   },
-  "keywords": [],
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "keywords": [
+    "study-planner",
+    "timetable",
+    "scheduler",
+    "education",
+    "ai",
+    "express",
+    "mongodb"
+  ],
   "author": "Shailav Malik",
   "license": "ISC",
-  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ShailavMalik/hacktoberfest-2025"
+  },
   "devDependencies": {
     "@babel/cli": "^7.23.9",
     "@babel/preset-env": "^7.23.9",
