@@ -16,3 +16,8 @@ Starter tasks
 Good first tasks
 - Add sample JSON data and a UI that lists rooms
 - Implement basic search/filter UI
+
+Related projects
+- External example: Alert-yaar24 branches — https://github.com/Ethicalmind/Alert-yaar24/branches
+
+If this link should point to a specific branch or PR, mention it in an issue or provide the exact URL and I'll update this file.
