@@ -1,0 +1,1 @@
+Live API: https://studyvibe-backend.onrender.com

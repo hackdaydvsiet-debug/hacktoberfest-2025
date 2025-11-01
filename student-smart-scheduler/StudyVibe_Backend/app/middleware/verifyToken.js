@@ -1,0 +1,1 @@
+// this verifies the token and checks if the user is an admin to access the admin routes
